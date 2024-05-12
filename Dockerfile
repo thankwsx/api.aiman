@@ -12,6 +12,6 @@ USER node
 COPY --chown=node:node . .
 
 RUN npm install
-EXPOSE 80
+EXPOSE 8080
 
 CMD ["node", "index.js"]
