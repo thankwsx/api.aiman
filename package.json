@@ -17,6 +17,8 @@
   },
   "homepage": "https://github.com/thankwsx/api.aiman#readme",
   "dependencies": {
+    "body-parser": "^1.20.2",
+    "dotenv": "^16.4.5",
     "express": "^4.19.2"
   }
 }
