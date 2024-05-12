@@ -49,7 +49,7 @@ const createDiaryFile = (fileName, content) => {
 // 向日记文件追加内容
 const appendDiaryFile = (fileName, content) => {
     const dir = getDiaryDir(fileName);
-    fs.appendFileSync(path.join(basePath, dir, fileName), `\n${content}`);
+    fs.appendFileSync(path.join(basePath, dir, fileName), `\n\n${content}`);
     // 判断文件是否追加成功
     if (!checkDiaryFileExist(fileName)) {
         throw new Error('Append diary file failed');
