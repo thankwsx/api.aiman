@@ -3,6 +3,8 @@ FROM node:lts-slim
 
 WORKDIR /app
 
+RUN mkdir -p /app/node_modules && chown -R node:node /app
+
 COPY package.json /app/package.json
 
 USER node
