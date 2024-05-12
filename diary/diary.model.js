@@ -8,9 +8,15 @@ class DiaryModel {
     createDiary(diary) {
         // 不存在则创建
         if (!storage.checkDiaryFileExist(diary.fileName)) {
-            return storage.createDiaryFile(diary.fileName, diary.content);
+            if (!storage.createDiaryFile(diary.fileName, diary.content)) {
+                throw new Error('Create diary file failed');
+            }
+            return true;
         } else {
-            return storage.appendDiaryFile(diary.fileName, diary.content);
+            if (!storage.appendDiaryFile(diary.fileName, diary.content)) {
+                throw new Error('Append diary file failed');
+            }
+            return true;
         }
     }
 

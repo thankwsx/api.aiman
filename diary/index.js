@@ -1,6 +1,7 @@
 const express = require('express')
 const router = express.Router()
 const DiaryModel = require('./diary.model').DiaryModel
+const formatDate = require('./util').formatDate
 
 router.get('/', (req, res) => {
     res.send('Diary API');
@@ -12,27 +13,23 @@ router.post('/create', (req, res) => {
     const date = new Date();
     const fileName = formatDate(date) + '.md';
     const diaryModel = new DiaryModel();
-    diaryModel.createDiary({
-        fileName: fileName,
-        content: req.body.content,
-    });
-    res.json({
-        code: 0,
-        msg: 'ok'
-    })
+    try {
+        diaryModel.createDiary({
+            fileName: fileName,
+            content: req.body.content,
+        });
+        res.json({
+            code: 0,
+            msg: 'ok'
+        })
+    } catch (e) {
+        res.json({
+            code: 1,
+            msg: 'something wrong'
+        })
+
+    }
 
 })
-
-const formatDate = (date, withTime = false) => {
-    // 不足两位补0
-    const month = (date.getMonth() + 1).toString().padStart(2, '0');
-    const day = date.getDate().toString().padStart(2, '0');
-    if (withTime) {
-        const hour = date.getHours().toString().padStart(2, '0');
-        const minute = date.getMinutes().toString().padStart(2, '0');
-        const sec = date.getSeconds().toString().padStart(2, '0');
-    }
-    return `${date.getFullYear()}-${month}-${day}${withTime ? ' ' + hour + ':' + minute + ':' + sec : ''}`
-}
 
 module.exports = router

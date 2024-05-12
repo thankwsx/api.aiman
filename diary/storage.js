@@ -1,10 +1,27 @@
 // 负责日记存储
 const fs = require('fs');
 const path = require('path');
+const formatDate = require('./util').formatDate
 
 // 日记存储路径
-// const basePath = '/root/git/diary';
 const basePath = process.env.DIARY_BASE_PATH;
+
+const getDiaryHeader = (fileName) => {
+    const date = fileName.substring(0, 10);
+    const now = new Date();
+    const week = ['周日', '周一', '周二', '周三', '周四', '周五', '周六'][now.getDay()];
+    return `---
+title: ${date} ${week}
+date: "${formatDate(now, true)}"
+tags: []
+---`
+}
+
+const initDiaryHeader = (fileName) => {
+    const dir = getDiaryDir(fileName);
+    const content = getDiaryHeader(fileName);
+    fs.writeFileSync(path.join(basePath, dir, fileName), content);
+}
 
 // 检查日记文件是否存在
 const checkDiaryFileExist = (fileName) => {
@@ -15,12 +32,18 @@ const checkDiaryFileExist = (fileName) => {
 // 创建日记文件
 const createDiaryFile = (fileName, content) => {
     const dir = getDiaryDir(fileName);
-    fs.writeFileSync(path.join(basePath, dir, fileName), content);
-    // 判断文件是否创建成功
-    if (!checkDiaryFileExist(fileName)) {
-        throw new Error('Create diary file failed');
+    try {
+        initDiaryHeader(fileName);
+        fs.appendFileSync(path.join(basePath, dir, fileName), `\n${content}`);
+        // 判断文件是否创建成功
+        if (!checkDiaryFileExist(fileName)) {
+            throw new Error('Create diary file failed');
+        }
+        return fileName;
+    } catch (e) {
+        console.log('createDiaryFile error:', e);
+        return false;
     }
-    return fileName;
 }
 
 // 向日记文件追加内容
