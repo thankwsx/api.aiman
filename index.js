@@ -51,7 +51,7 @@ app.use(cors())
 // Oauth后半部分
 app.set('trust proxy', 1) // trust first proxy
 app.use(session({
-  secret: 'thankwsx', saveUninitialized: false, resave: false
+  secret: 'thankwsx', saveUninitialized: false, resave: false, httpOnly: false, domain: 'api.jackyqi.cn'
 }))
 app.use(passport.initialize());
 app.use(passport.session());
