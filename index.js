@@ -53,7 +53,7 @@ app.set('trust proxy', 1) // trust first proxy
 app.use(session({
   secret: 'thankwsx', saveUninitialized: false, resave: false, cookie: {
     httpOnly: false, 
-    domain: 'api.jackyqi.cn',
+    domain: 'aiman.jackyqi.cn',
     secure: false,
     maxAge: null,
     path: '/',
