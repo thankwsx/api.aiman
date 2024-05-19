@@ -23,7 +23,7 @@ passport.deserializeUser(function (obj, done) {
 passport.use(new GitHubStrategy({
   clientID: process.env.OAUTH_CLIENT_ID,
   clientSecret: process.env.OAUTH_SECRET_KEY,
-  callbackURL: "http://localhost:8080/connect/github/callback"
+  callbackURL: `${process.env.HOST}/connect/github/callback`
 },
   function (accessToken, refreshToken, profile, done) {
     // asynchronous verification, for effect...
@@ -78,7 +78,6 @@ app.get('/auth/github',
 app.get('/connect/github/callback',
   passport.authenticate('github', { failureRedirect: '/login' }),
   function (req, res) {
-    console.log(req);
     res.redirect('/');
   });
 
