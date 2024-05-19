@@ -87,6 +87,14 @@ app.get('/login', (req, res) => {
   res.send('<a href="/auth/github">Login with GitHub</a>');
 })
 
+app.post('/userinfo', ensureAuthenticated, (req, res) => {
+  res.json({
+    code: 0,
+    data: req.user,
+    msg: 'ok'
+  });
+})
+
 app.use('/diary', ensureAuthenticated, diary)
 app.use('/setting', ensureAuthenticated, setting)
 
