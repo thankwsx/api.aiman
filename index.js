@@ -110,7 +110,11 @@ app.get('/logout', function (req, res) {
 function ensureAuthenticated(req, res, next) {
   if (req.isAuthenticated()) { return next(); }
   // console.log('Not login:', req);
-  res.redirect('/login')
+  res.json({
+    code: 1,
+    data: null,
+    msg: 'Not login'
+  });
 }
 
 app.listen(port, () => {
