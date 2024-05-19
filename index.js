@@ -51,9 +51,7 @@ app.use(cors())
 // Oauth后半部分
 app.set('trust proxy', 1) // trust first proxy
 app.use(session({
-  secret: 'grant', saveUninitialized: true, resave: false, cookie: {
-    secure: true,
-  }
+  secret: 'thankwsx', saveUninitialized: false, resave: false
 }))
 app.use(passport.initialize());
 app.use(passport.session());
@@ -82,7 +80,7 @@ app.get('/connect/github/callback',
   });
 
 app.get('/', (req, res) => {
-  res.send('Hello World!')
+  res.send('Hello World!' + req.user.displayName);
 })
 
 app.get('/login', (req, res) => {
@@ -103,6 +101,7 @@ app.get('/logout', function (req, res) {
 
 function ensureAuthenticated(req, res, next) {
   if (req.isAuthenticated()) { return next(); }
+  // console.log('Not login:', req);
   res.redirect('/login')
 }
 
