@@ -82,9 +82,12 @@ app.get('/connect/github/callback',
     res.redirect('/');
   });
 
-
 app.get('/', (req, res) => {
   res.send('Hello World!')
+})
+
+app.get('/login', (req, res) => {
+  res.send('<a href="/auth/github">Login with GitHub</a>');
 })
 
 app.use('/diary', ensureAuthenticated, diary)
