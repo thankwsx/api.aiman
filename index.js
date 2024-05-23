@@ -46,17 +46,20 @@ const diary = require('./diary')
 const setting = require('./setting')
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
-app.use(cors())
+app.use(cors({
+	origin: ['http://localhost:3000','https://aiman.jackyqi.cn','https://api.aiman.jackyqi.cn'],
+    credentials: true,
+    sameSite: 'none'
+}))
 
 // Oauth后半部分
 app.set('trust proxy', 1) // trust first proxy
 app.use(session({
-  secret: 'thankwsx', saveUninitialized: false, resave: false, cookie: {
-    httpOnly: false, 
-    domain: 'aiman.jackyqi.cn',
-    secure: false,
-    maxAge: null,
-    path: '/',
+  secret: 'thankwsx', saveUninitialized: false, resave: false,
+  cookie: {
+	domain: 'aiman.jackyqi.cn',
+	maxAge: 1000 * 60 * 60 * 24 // save 1 day
+	//domain: 'localhost:3000'
   }
 }))
 app.use(passport.initialize());
@@ -85,8 +88,9 @@ app.get('/connect/github/callback',
     res.redirect('/');
   });
 
-app.get('/', (req, res) => {
-  res.send('Hello World!' + req.user.displayName);
+app.get('/', ensureAuthenticated, (req, res) => {
+  // res.send('Hello World!' + req.user.displayName);
+  res.redirect('https://aiman.jackyqi.cn');
 })
 
 app.get('/login', (req, res) => {
