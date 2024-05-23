@@ -114,7 +114,7 @@ app.get('/health', (req, res) => {
 
 app.get('/logout', function (req, res) {
   req.logout();
-  res.redirect('/');
+  res.send('logout');
 })
 
 function ensureAuthenticated(req, res, next) {
