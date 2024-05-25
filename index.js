@@ -44,6 +44,9 @@ const port = 8080
 const diary = require('./diary')
 // 设置路由
 const setting = require('./setting')
+// 记账路由
+const beancount = require('./beancount')
+
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
 app.use(cors({
@@ -107,6 +110,7 @@ app.post('/userinfo', ensureAuthenticated, (req, res) => {
 
 app.use('/diary', ensureAuthenticated, diary)
 app.use('/setting', ensureAuthenticated, setting)
+app.use('/beancount', beancount)
 
 app.get('/health', (req, res) => {
   res.send('status: 200');

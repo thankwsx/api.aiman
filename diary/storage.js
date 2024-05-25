@@ -1,7 +1,7 @@
 // 负责日记存储
 const fs = require('fs');
 const path = require('path');
-const formatDate = require('./util').formatDate
+const formatDate = require('../common/util').formatDate
 
 // 日记存储路径
 const basePath = process.env.DIARY_BASE_PATH;

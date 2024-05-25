@@ -1,7 +1,7 @@
 const express = require('express')
 const router = express.Router()
 const DiaryModel = require('./diary.model').DiaryModel
-const formatDate = require('./util').formatDate
+const formatDate = require('../common/util').formatDate
 
 router.get('/', (req, res) => {
     res.send('Diary API');
