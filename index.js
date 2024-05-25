@@ -110,7 +110,7 @@ app.post('/userinfo', ensureAuthenticated, (req, res) => {
 
 app.use('/diary', ensureAuthenticated, diary)
 app.use('/setting', ensureAuthenticated, setting)
-app.use('/beancount', beancount)
+app.use('/beancount', ensureAuthenticated, beancount)
 
 app.get('/health', (req, res) => {
   res.send('status: 200');
