@@ -25,7 +25,7 @@ class BeancountModel {
     }
 
     buildBeancount(beancount) {
-        return `${beancount.date} * ${beancount.payee} "${beancount.desc}"
+        return `${beancount.date} * "${beancount.payee}" "${beancount.desc}"
     ${beancount.account.join(':')} -${Number(beancount.money).toFixed(2)} CNY
     ${beancount.expense.join(':')}`;
     }
