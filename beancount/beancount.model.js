@@ -25,7 +25,8 @@ class BeancountModel {
     }
 
     buildBeancount(beancount) {
-        return `${beancount.date} * "${beancount.payee}" "${beancount.desc}"
+        // 自动增加AIMAN标签
+        return `${beancount.date} * "${beancount.payee}" "${beancount.desc}" #AIMAN
     ${beancount.account.join(':')} -${Number(beancount.money).toFixed(2)} CNY
     ${beancount.expense.join(':')}`;
     }
