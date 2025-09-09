@@ -51,10 +51,16 @@ const beancount = require('./beancount')
 
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
+
+// 添加请求日志中间件
+app.use((req, res, next) => {
+  console.log(`${new Date().toISOString()} - ${req.method} ${req.path}`, req.body);
+  next();
+});
 app.use(cors({
-	origin: ['http://localhost:3000','https://aiman.jackyqi.cn','https://api.aiman.jackyqi.cn'],
-    credentials: true,
-    sameSite: 'none'
+  origin: ['http://localhost:3000', 'https://aiman.jackyqi.cn', 'https://api.aiman.jackyqi.cn'],
+  credentials: true,
+  sameSite: 'none'
 }))
 
 // Oauth后半部分
@@ -62,9 +68,9 @@ app.set('trust proxy', 1) // trust first proxy
 app.use(session({
   secret: 'thankwsx', saveUninitialized: false, resave: false,
   cookie: {
-	domain: 'aiman.jackyqi.cn',
-	maxAge: 1000 * 60 * 60 * 24 // save 1 day
-	//domain: 'localhost:3000'
+    domain: 'aiman.jackyqi.cn',
+    maxAge: 1000 * 60 * 60 * 24 // save 1 day
+    //domain: 'localhost:3000'
   }
 }))
 app.use(passport.initialize());
@@ -118,6 +124,16 @@ app.get('/health', (req, res) => {
   res.send('status: 200');
 })
 
+// 测试端点，用于快捷指令调试
+app.post('/test', (req, res) => {
+  console.log('Test endpoint called with:', req.body);
+  res.json({
+    code: 0,
+    data: req.body,
+    msg: 'Test successful'
+  });
+})
+
 app.get('/logout', function (req, res) {
   req.logout();
   res.send('logout');
@@ -133,6 +149,35 @@ app.get('/expenses/list', (req, res) => {
   const beancountModel = new BeancountModel();
   const expenseList = beancountModel.getExpenseList();
   res.json(expenseList)
+})
+
+app.post('/shortcut/beancount/create', (req, res) => {
+  const date = new Date();
+  const fileName = formatDate(date) + '.md';
+  const beancountModel = new BeancountModel();
+  try {
+    beancountModel.createBeancount({
+      fileName: fileName,
+      content: {
+        date: req.body.date,
+        account: req.body.account.split(':'),
+        expense: req.body.expense.split(':'),
+        money: req.body.money,
+        payee: '亲属卡',
+        desc: '-',
+      }
+    });
+    res.json({
+      code: 0,
+      msg: 'ok'
+    })
+  } catch (e) {
+    res.json({
+      code: 1,
+      msg: 'something wrong'
+    })
+
+  }
 })
 
 function ensureAuthenticated(req, res, next) {
