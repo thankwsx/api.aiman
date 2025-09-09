@@ -30,6 +30,14 @@ class BeancountModel {
     ${beancount.account.join(':')} -${Number(beancount.money).toFixed(2)} CNY
     ${beancount.expense.join(':')}`;
     }
+
+    getAccountList() {
+        return ['Assets:Alipay:钱包', 'Assets:Unknown', 'Assets:Alipay:余额宝', 'Assets:Wechat:零钱通', 'Assets:Wechat:钱包'];
+    }
+
+    getExpenseList() {
+        return ['Expenses:Family:Father', 'Expenses:Family:Mother'];
+    }
 }
 
 module.exports = {

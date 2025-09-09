@@ -69,4 +69,16 @@ router.post('/create', (req, res) => {
 
 })
 
+router.get('/account/list', (req, res) => {
+    const beancountModel = new BeancountModel();
+    const accountList = beancountModel.getAccountList();
+    res.json(accountList)
+})
+
+router.get('/expenses/list', (req, res) => {
+    const beancountModel = new BeancountModel();
+    const expenseList = beancountModel.getExpenseList();
+    res.json(expenseList)
+})
+
 module.exports = router
