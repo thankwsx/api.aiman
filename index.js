@@ -140,18 +140,6 @@ app.get('/logout', function (req, res) {
   res.send('logout');
 })
 
-app.get('/account/list', (req, res) => {
-  const beancountModel = new BeancountModel();
-  const accountList = beancountModel.getAccountList();
-  res.json(accountList)
-})
-
-app.get('/expenses/list', (req, res) => {
-  const beancountModel = new BeancountModel();
-  const expenseList = beancountModel.getExpenseList();
-  res.json(expenseList)
-})
-
 app.post('/shortcut/beancount/create', (req, res) => {
   const date = new Date();
   const fileName = formatDate(date) + '.md';
@@ -164,8 +152,8 @@ app.post('/shortcut/beancount/create', (req, res) => {
         account: req.body.account.split(':'),
         expense: req.body.expense.split(':'),
         money: req.body.money,
-        payee: '亲属卡',
-        desc: '-',
+        payee: req.body.payee || '未知',
+        desc: req.body.desc || '-',
       }
     });
     res.json({
