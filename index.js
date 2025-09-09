@@ -7,6 +7,8 @@ const bodyParser = require('body-parser')
 const passport = require('passport')
 const session = require('express-session')
 const GitHubStrategy = require('passport-github2').Strategy;
+const BeancountModel = require('./beancount/beancount.model').BeancountModel;
+
 passport.serializeUser(function (user, done) {
   done(null, user);
 });
@@ -119,6 +121,18 @@ app.get('/health', (req, res) => {
 app.get('/logout', function (req, res) {
   req.logout();
   res.send('logout');
+})
+
+app.get('/account/list', (req, res) => {
+  const beancountModel = new BeancountModel();
+  const accountList = beancountModel.getAccountList();
+  res.json(accountList)
+})
+
+app.get('/expenses/list', (req, res) => {
+  const beancountModel = new BeancountModel();
+  const expenseList = beancountModel.getExpenseList();
+  res.json(expenseList)
 })
 
 function ensureAuthenticated(req, res, next) {
