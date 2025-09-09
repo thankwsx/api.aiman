@@ -8,6 +8,7 @@ const passport = require('passport')
 const session = require('express-session')
 const GitHubStrategy = require('passport-github2').Strategy;
 const BeancountModel = require('./beancount/beancount.model').BeancountModel;
+const { formatDate } = require('./common/util');
 
 passport.serializeUser(function (user, done) {
   done(null, user);
